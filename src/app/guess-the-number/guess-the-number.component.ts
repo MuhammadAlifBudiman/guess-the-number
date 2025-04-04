@@ -9,11 +9,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './guess-the-number.component.scss',
 })
 export class GuessTheNumberComponent {
-  secretNumber = this.generateRandomNumber();
-  attemptsLeft = 10;
+  secretNumber: number = this.generateRandomNumber();
+  attemptsLeft: number = 10;
   guessedNumber?: number;
-  feedbackMessage = '';
-  gameOver = false;
+  feedbackMessage: string = '';
+  gameOver: boolean = false;
+  isWin: boolean = false;
 
   private static readonly MAX_NUMBER = 100;
   private static readonly MAX_ATTEMPTS = 10;
@@ -41,9 +42,11 @@ export class GuessTheNumberComponent {
 
   private evaluateGuess(): void {
     if (this.guessedNumber === this.secretNumber) {
-      this.endGame(true);
+      this.isWin = true;
+      this.endGame();
     } else if (this.attemptsLeft === 0) {
-      this.endGame(false);
+      this.isWin = false;
+      this.endGame();
     } else {
       this.feedbackMessage =
         this.guessedNumber! > this.secretNumber
@@ -52,9 +55,9 @@ export class GuessTheNumberComponent {
     }
   }
 
-  private endGame(isWin: boolean): void {
+  private endGame(): void {
     this.gameOver = true;
-    this.feedbackMessage = isWin
+    this.feedbackMessage = this.isWin
       ? 'Congratulations! You guessed the correct number!'
       : `Game over! The correct number was ${this.secretNumber}`;
   }

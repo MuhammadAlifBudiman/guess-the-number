@@ -22,7 +22,14 @@
     <p>Attempts left: {{ attemptsLeft }}</p>
   </div>
 
-  <div *ngIf="feedbackMessage" class="feedback">
+  <div
+    *ngIf="feedbackMessage"
+    class="feedback"
+    [ngClass]="{
+      correct: isWin,
+      incorrect: !isWin
+    }"
+  >
     <p>{{ feedbackMessage }}</p>
   </div>
 
